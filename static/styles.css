@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
+
+:root {
+    --FF: "Space Mono", sans-serif;
+    --FS: clamp(1rem, 2.2vh, 1.5rem);
+
+    --BGCOLOR: #002828;
+    --FONT-COLOR-GREEN: #00FF00;
+    --FONT-COLOR-GRAY1: #D3D3D3;
+    --FONT-COLOR-GRAY2: #6C6C6C;
+    --FONT-COLOR-PURPLE: #BF00FF;
+    --FONT-COLOR-RED: #FF0033;
+
+}
+
+body {
+    font-family: var(--FF);
+    font-size: var(--FS);
+    min-height: 100vh;
+    background-color: var(--BGCOLOR);
+    color: var(--FONT-COLOR-GRAY1);
+}
+
+header {
+    text-align: center;
+}
+
+.one {
+    color: #6C6C6C;
+}
+
+.two {    
+    color: #D3D3D3;
+}
+
+.three {
+    color: #1E1E1E;
+}
+
+.four {
+    color: #00FF00
+}
+
+.five {
+    color: #BF00FF;
+}
+
+.six {
+    color: #FF0033;
+}
