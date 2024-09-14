@@ -1,12 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-
-
 :root {
     --FF: "Space Mono", sans-serif;
     --FS: clamp(1rem, 2.2vh, 1.5rem);
 
     --BGCOLOR: #002828;
+    --BGCOLOR-BLUE: #001428;
     --FONT-COLOR-GREEN: #00FF00;
     --FONT-COLOR-GRAY1: #D3D3D3;
     --FONT-COLOR-GRAY2: #6C6C6C;
@@ -23,30 +22,70 @@ body {
     color: var(--FONT-COLOR-GRAY1);
 }
 
+img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+p {
+    word-break: break-all;
+}
+
 header {
     text-align: center;
 }
 
-.one {
-    color: #6C6C6C;
+.profile {
+    background-color: var(--BGCOLOR-BLUE);
+    border: solid thick black;
 }
 
-.two {    
-    color: #D3D3D3;
+.profile img {
+    width: 85%;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+.profile h5 {
+    color: var(--FONT-COLOR-PURPLE);
+    text-align: center;
+    margin-top: 0.5em;
 }
 
-.three {
-    color: #1E1E1E;
+.cs-week {
+    margin-bottom: 0.25em;
+    border-bottom: solid thin var(--FONT-COLOR-GRAY2);
 }
 
-.four {
-    color: #00FF00
+.cs-week:last-child {
+    margin-bottom: 0;
 }
 
-.five {
-    color: #BF00FF;
+
+
+.cs-week-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.six {
-    color: #FF0033;
+.cs-week-title button,p {
+    margin-bottom: 0.25rem;
+}
+
+.progress {
+    margin-top: 1em;
+    width: 70%;
+    text-align: center;
+    height: 20px;
+}
+.progress-bar {
+    background-color: var(--FONT-COLOR-GREEN);
+    color:black;
+}
+
+.unfinished {
+    background-color: var(--BGCOLOR-BLUE);
+    color:var(--FONT-COLOR-GRAY1);
 }
