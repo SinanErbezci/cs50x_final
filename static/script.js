@@ -21,4 +21,14 @@ function main() {
         duration: 2250,
         delay: (el, i) => 150 * (i+1)
     });
+
+    const buttons = document.querySelector('.type1');
+    buttons.addEventListener('click', () => {
+        if (buttons.className.includes('active')) {
+            buttons.className = buttons.className.replace('active', '');
+        }
+        else {
+            buttons.className += ' '+'active';
+        }
+    });
 }
