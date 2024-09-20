@@ -85,7 +85,7 @@ header {
 }
 
 .progress {
-    margin-top: 1em;
+    margin: 1em auto;
     width: 70%;
     text-align: center;
     height: 20px;
@@ -121,4 +121,20 @@ header {
     100% {
         background: var(--BGCOLOR-BLUE);
     }
+}
+
+.correct {
+    color: var(--FONT-COLOR-GREEN);
+}
+
+.incorrect {
+    color: var(--FONT-COLOR-RED);
+}
+
+.game {
+    font-size: x-large;
+    border: solid thick var(--BGCOLOR-BLUE);
+    border-radius: 10px;
+    padding: 0.5em 2em;
+    margin: 0.5em auto;
 }

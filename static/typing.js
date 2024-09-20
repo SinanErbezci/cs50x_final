@@ -18,11 +18,6 @@ class giveLine {
     }
 }
 
-function randomWord() {
-    const randomIndex = Math.ceil(Math.random() * sentenceCount);
-    return words[randomIndex - 1];
- }
-
 function addClass(elem, x) {
     elem.className += ' '+x;
 }
@@ -30,6 +25,7 @@ function addClass(elem, x) {
 function removeClass(elem, x) {
     elem.className = elem.className.replace(x,'');
 }
+
 
 function formatWord(word) {
     return `<span class="letter">${word.split('').join('</span><span class="letter">')}</span>`;
@@ -46,27 +42,27 @@ function checkSuccess(elem) {
     return true;
 }
 
-function newGame() {
-    const word = randomWord();
-    const formatedWord = formatWord(word);
-    let wordCount = word.length;
+function typingGame(week) {
+    const word = new giveLine(week);
+    const formatedWord = formatWord(word.line);
+    let wordCount = word.line.length;
     let cursorIndex = 0;
-    let finishState = false;
+    var finished = false
+    var success;
 
     const wordsElement = document.querySelector('.words');
     wordsElement.innerHTML = formatedWord;
 
     // addClass(document.querySelector('.word'), 'current');
-    addClass(document.querySelector('.letter'), 'current');
+    addClass(document.querySelector('.words .letter'), 'current');
 
-    const game = document.getElementById('game');
+    const game = document.querySelector('.game');
     console.log(wordCount);
 
     game.addEventListener('keyup', ev => {
         const typedKey = ev.key;
         const currentLetter = document.querySelector('.letter.current');
         const isBackspace = typedKey === 'Backspace';
-
 
         if (isBackspace) {
             if (cursorIndex === 0) {
@@ -86,19 +82,16 @@ function newGame() {
         }
         else if  (typedKey === currentLetter.innerHTML) {
 
-            if (finishState) {
-
-            }
-            else if (cursorIndex === (wordCount - 1)) {
+            if (cursorIndex === (wordCount - 1)) {
                 console.log("finished");
                 addClass(currentLetter, 'correct');
-                finishState = true;
                 if (checkSuccess(wordsElement)) {
-                    console.log("success");
+                    success = true;
                 }
                 else {
-                    console.log("fail");
+                    success = false;
                 }
+                finished = true
             }   
             else {
                 addClass(currentLetter, 'correct');
@@ -109,22 +102,18 @@ function newGame() {
             }
         }
         else {
-
-            if (finishState) {
-
-            }
-            else if (cursorIndex === (wordCount - 1)) {
+            if (cursorIndex === (wordCount - 1)) {
                 console.log("finished");
                 checkSuccess(wordsElement);
                 addClass(currentLetter, 'incorrect');
-                finishState = true;
                  if (checkSuccess(wordsElement)) {
-                     console.log("success");
+                    success = true;
                  }
                  else {
-                     console.log("fail");
+                    success = false;
                 }
-            }       
+                finished = true;
+            }   
             else {
                 addClass(currentLetter, 'incorrect');
                 removeClass(currentLetter, 'current'); 
@@ -134,6 +123,13 @@ function newGame() {
             }
         }})
 
+        let checkFinish = setInterval( () => {
+            if (finished) {
+                clearInterval(checkFinish);
+                return success;
+            }
+        }, 100)
+
 }
 
-export { giveLine, randomWord, addClass, removeClass, formatWord, checkSuccess, newGame};
+export { giveLine, addClass, removeClass, formatWord, checkSuccess, typingGame};

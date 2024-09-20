@@ -8,7 +8,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
         <link href="./static/styles.css" rel="stylesheet">
-        <script src="./static/script.js"></script>
+        <script type="module" src="./static/script.js"></script>
+        <script type="module" src="./static/typing.js"></script>
     </head>
     <body>
         <header>
@@ -25,79 +26,89 @@
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 0 - Scratch <svg class="check-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg></p>
-                        <button type="button" id="plus" class="unfinished type1 button">Start Learning</button>
+                        <button data-week="0" type="button" id="plus" class="unfinished type1 button">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 1 - C</p>
-                        <button type="button" class="finished">Start Learning</button>
+                        <button data-week="1" type="button" class="finished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 2 - Arrays</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="2" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 3 - Algorithms</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="3" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 4 - Memory</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="4" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 5 - Data Structes</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="5" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 6 - Python</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="6" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 7 - SQL</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="7" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 8 - HTML, CSS, Javascript</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="8" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 9 - Flask</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="9" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title">
                         <p>Week 10 - Cybersecurity</p>
-                        <button type="button" class="unfinished">Start Learning</button>
+                        <button data-week="10" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-animated" id="progress" role="progressbar" style="width: 0%">0%</div>
+            <div class="row">
+                <div class="d-flex justify-content-center monolog">
+                    <p class="animated">...ver verdsa jdbas vabl adsfbh...</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center bar">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-animated" id="progress" role="progressbar" style="width: 0%">0%</div>
+                    </div>
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <p class="animated">...ver verdsa jdbas vabl adsfbh...</p>
+                <div class="d-inline-flex justify-content-center game" tabindex="0">
+                    <div class="cursor"></div>
+                    <div class="words"></div>
+                </div>
             </div>
         </div>
         <h1></h1>
