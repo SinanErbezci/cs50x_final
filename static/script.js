@@ -7,6 +7,7 @@ var typGameStatus = false;
 var cursorIndex = 0;
 var typingEventBinded;
 var gameElem = document.querySelector('.game');
+var progressBar = document.querySelector('.progress-bar');
 
 function main() {
     const startBtns = document.querySelectorAll('.cs-week-title button');
@@ -14,31 +15,35 @@ function main() {
         btn.addEventListener("click", gameLoop);
     })
 
-    var textWrapper = document.querySelector('.animated');
-    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+    const myModal = bootstrap.Modal.getOrCreateInstance('#exampleModal');
+    myModal.show();
 
-    anime.timeline({loop: false})
-    .add({
-        targets: '.animated .letter',
-        opacity: [0,1],
-        easing: "easeInOutQuad",
-        duration: 2250,
-        delay: (el, i) => 150 * (i+1)
-    });
+    // var textWrapper = document.querySelector('.animated');
+    // textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+    // anime.timeline({loop: false})
+    // .add({
+    //     targets: '.animated .letter',
+    //     opacity: [0,1],
+    //     easing: "easeInOutQuad",
+    //     duration: 2250,
+    //     delay: (el, i) => 150 * (i+1)
+    // });
 }
 
 function gameLoop() {
     if (activeWeek) removeClass(activeWeek, 'active');
     addClass(this, 'active');
+    showGame();
+
     activeWeek = this;
     for ( var i = 0; i < gameIntervals.length; i++) {
         clearInterval(gameIntervals[i]);
     }
     let week = this.dataset.week;
-    var currentProgress = weekProgress[this.dataset.week]
-    console.log(currentProgress);
+    updatebar(week);
     gameIntervals.push( setInterval( () => {
-        progress(20);
+        progress(20 );
         console.log(`${week}`,weekProgress[week]);
         checkFinished();
         }
@@ -83,7 +88,7 @@ function progress(point) {
     if (weekProgress[activeWeek.dataset.week] >= 100.0) {
         weekFinished[activeWeek.dataset.week] = true;
     }
-    console.log(weekProgress[activeWeek.dataset.week]);
+    updatebar(activeWeek.dataset.week);
 }
 
 function formatWord(word) {
@@ -105,11 +110,15 @@ function checkSuccess() {
 
 function checkFinished() {
     if (weekFinished[activeWeek.dataset.week]) {
-        gameElem.className = "d-none    ";
+        gameElem.className = "d-none";
         activeWeek.className = 'finished';
+        activeWeek.disabled = true;
         for ( var i = 0; i < gameIntervals.length; i++) {
             clearInterval(gameIntervals[i]);
         }
+        let checkMark = '<img class="check-mark" src="./static/images/check.svg"/>  ';
+        let weekElem = document.querySelector(`#week${activeWeek.dataset.week} p`);
+        weekElem.innerHTML += ' ' + checkMark;
     }
 }
 
@@ -200,5 +209,14 @@ function typingEvent (event) {
             }
         }}}
 
+function updatebar(week) {
+    let progress = weekProgress[week].toString() + '%';
+    progressBar.style.width = progress;
+    progressBar.innerHTML = progress;
+}
+
+function showGame() {
+    gameElem.style.display = "inline-flex";
+}
 
 main()

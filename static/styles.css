@@ -132,6 +132,8 @@ header {
 }
 
 .game {
+    display: none;
+    justify-content: center;
     font-size: x-large;
     border: solid thick var(--BGCOLOR-BLUE);
     border-radius: 10px;
