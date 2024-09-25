@@ -16,21 +16,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-4 profile">
-                    <img src="./static/images/mid_1024x1024.jpeg" class="rounded border-dark" alt="profile-pic" width="1024">
-                    <h5>Beginner Programmer</h5>
-                    <p>This is you. dşsavşbfasnsbvşafbşhbhvş fdhşvşbfhavşbhaşbhvafşbvşabahvbşvavhbş dasfadsf</p>
                 </div>
                 <div class="col-8">
                     <div class="cs-week">
                         <div class="cs-week-title" id="week0">
-                        <p>Week 0 - Scratch <img class="check-mark" src="./static/images/check.svg"/></p>
-                        <button data-week="0" type="button" id="plus" class="unfinished type1 button">Start Learning</button>
+                        <p>Week 0 - Scratch </p>
+                        <button data-week="0" type="button" id="plus" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
                         <div class="cs-week-title" id="week1">
                         <p>Week 1 - C</p>
-                        <button data-week="1" type="button" class="finished">Start Learning</button>
+                        <button data-week="1" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
                     <div class="cs-week">
@@ -97,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
+            <div class="d-none">
                 <div class="game" tabindex="0">
                     <div class="cursor"></div>
                     <div class="words"></div>
@@ -107,24 +104,41 @@
 
   
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <div class="modal fade" id="startModal" tabindex="-1" aria-labelledby="startModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <h1 class="modal-title fs-5" id="startModalLabel">Welcome to CS50x Idle Game</h1>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+            <p>Start Learning coding week by week with CS50x.</p>
+            <p>Complete the typing challenge to get extra points.</p>
+            <p>Enjoy!</p>
         </div>
       </div>
     </div>
   </div>
-    </body>
+  <div class="modal fade" id="endingModal" tabindex="-1" aria-labelledby="endingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="endingModalLabel">The End</h1>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Thank you for playing!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<div class="container-fluid position-absolute bottom-0">
+    <footer class="d-flex flex-wrap justify-content-center align-items-center py-3 border-top">
+        <h5 class="text-center">CS50X Final Project - Sinan Erbezci</h5>
+    </footer>
+</div>
+</div>
+</div>
+</body>
 </html>

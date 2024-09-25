@@ -22,18 +22,19 @@ body {
     color: var(--FONT-COLOR-GRAY1);
 }
 
-button {
+/* button {
     border-radius: 5px;
-}
+} */
+
 img {
     width: 100%;
     height: auto;
     display: block;
 }
-
-p {
+/* 
+.profile p {
     word-break: break-all;
-}
+} */
 
 header {
     text-align: center;
@@ -111,6 +112,41 @@ header {
 }
 
 
+
+.correct {
+    color: var(--FONT-COLOR-GREEN);
+}
+
+.incorrect {
+    color: var(--FONT-COLOR-RED);
+}
+
+.game {
+    justify-content: center;
+    font-size: x-large;
+    border: solid thick var(--BGCOLOR-BLUE);
+    border-radius: 10px;
+    padding: 0.5em 2em;
+    margin: 0.5em auto;
+}
+
+.modal-content {
+    background-color: var(--BGCOLOR-BLUE);
+}
+
+.btn-close {
+    fill:white;
+}
+
+.pulse-correct {
+    animation: pulse-correct 2s;
+    animation-iteration-count: 1;
+}
+
+.pulse-incorrect {
+    animation: pulse-incorrect 2s;
+    animation-iteration-count: 1;
+}
 @keyframes glowing {
     0% {
         background: var(--BGCOLOR-BLUE);
@@ -123,20 +159,22 @@ header {
     }
 }
 
-.correct {
-    color: var(--FONT-COLOR-GREEN);
+@keyframes pulse-correct {
+    0% {
+        box-shadow: 0;
+    }
+
+    100% {
+        box-shadow: var(--FONT-COLOR-GREEN) 0px 25px 25px, var(--FONT-COLOR-GREEN) 0px -12px 30px, var(--FONT-COLOR-GREEN) 0px 4px 6px, var(--FONT-COLOR-GREEN)0px 12px 13px, var(--FONT-COLOR-GREEN) 0px -3px 5px;
+    }
 }
 
-.incorrect {
-    color: var(--FONT-COLOR-RED);
-}
+@keyframes pulse-incorrect {
+    0% {
+        box-shadow: 0;
+    }
 
-.game {
-    display: none;
-    justify-content: center;
-    font-size: x-large;
-    border: solid thick var(--BGCOLOR-BLUE);
-    border-radius: 10px;
-    padding: 0.5em 2em;
-    margin: 0.5em auto;
+    100% {
+        box-shadow: var(--FONT-COLOR-RED) 0px 25px 25px, var(--FONT-COLOR-RED) 0px -12px 30px, var(--FONT-COLOR-RED) 0px 4px 6px, var(--FONT-COLOR-RED)0px 12px 13px, var(--FONT-COLOR-RED) 0px -3px 5px;
+    }
 }

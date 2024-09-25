@@ -1,6 +1,17 @@
-var weekProgress = Array(11).fill(0.0);
-var weekFinished = Array(11).fill(false);
-var finishedWeeks = 0;
+// Loading data from localstroge
+var weekProgress =  JSON.parse(localStorage.getItem("weekProgress"));
+var weekFinished = JSON.parse(localStorage.getItem("weekFinished"));
+var finishedWeeks = JSON.parse(localStorage.getItem("finishedWeeks"));
+
+// First Time
+if (!weekProgress) {
+    weekProgress = Array(11).fill(0.0);
+    weekFinished = Array(11).fill(false);
+    finishedWeeks = 0;
+    const myModal = bootstrap.Modal.getOrCreateInstance('#endingModal');
+    myModal.show();
+}
+
 var gameIntervals = [];
 var activeWeek;
 var typGameStatus = false;
@@ -8,16 +19,34 @@ var cursorIndex = 0;
 var typingEventBinded;
 var gameElem = document.querySelector('.game');
 var progressBar = document.querySelector('.progress-bar');
-
+var profile = {
+    "beginner": {
+        "img": "beginner_1024x1024.jpeg",
+        "about": "This is you. You are just a noob programmer. Everything confuses you."
+    },
+    "mid": {
+        "img": "mid_1024x1024.jpeg",
+        "about": "Stuff is getting sense now. You understand main concepts of programming."
+    },
+    "advanced": {
+        "img": "advanced_1024x1024.jpeg",
+        "about": "You can see what's under the hood"
+    }
+}
 function main() {
+
     const startBtns = document.querySelectorAll('.cs-week-title button');
     startBtns.forEach( btn => {
         btn.addEventListener("click", gameLoop);
     })
 
-    const myModal = bootstrap.Modal.getOrCreateInstance('#exampleModal');
-    myModal.show();
-
+    updateCheckMark();
+    updateProfile();
+    // window.addEventListener("beforeunload" , () => {
+    //     localStorage.setItem("weekProgress", JSON.stringify(weekProgress));
+    //     localStorage.setItem("weekFinished", JSON.stringify(weekFinished));
+    //     localStorage.setItem("finishedWeeks",JSON.stringify(finishedWeeks));
+    // })
     // var textWrapper = document.querySelector('.animated');
     // textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
@@ -34,8 +63,8 @@ function main() {
 function gameLoop() {
     if (activeWeek) removeClass(activeWeek, 'active');
     addClass(this, 'active');
-    showGame();
-
+    // showGame();
+    updateProfile();
     activeWeek = this;
     for ( var i = 0; i < gameIntervals.length; i++) {
         clearInterval(gameIntervals[i]);
@@ -43,7 +72,7 @@ function gameLoop() {
     let week = this.dataset.week;
     updatebar(week);
     gameIntervals.push( setInterval( () => {
-        progress(20 );
+        progress(0.5);
         console.log(`${week}`,weekProgress[week]);
         checkFinished();
         }
@@ -87,6 +116,7 @@ function progress(point) {
     weekProgress[activeWeek.dataset.week] += point;
     if (weekProgress[activeWeek.dataset.week] >= 100.0) {
         weekFinished[activeWeek.dataset.week] = true;
+        finishedWeeks += 1;
     }
     updatebar(activeWeek.dataset.week);
 }
@@ -116,12 +146,49 @@ function checkFinished() {
         for ( var i = 0; i < gameIntervals.length; i++) {
             clearInterval(gameIntervals[i]);
         }
-        let checkMark = '<img class="check-mark" src="./static/images/check.svg"/>  ';
+        let checkMark = '<img class="check-mark" src="./static/images/check.svg"/>';
         let weekElem = document.querySelector(`#week${activeWeek.dataset.week} p`);
         weekElem.innerHTML += ' ' + checkMark;
     }
 }
 
+function updateCheckMark() {
+    let checkMark = '<img class="check-mark" src="./static/images/check.svg"/>';
+    for ( let i = 0; i < weekFinished.length ; i++) {
+        let weekBool = weekFinished[i]
+        console.log(i, weekBool);
+        if (weekBool) {
+            let weekP = document.querySelector(`#week${i.toString()} p`);
+            let weekButton = document.querySelector(`#week${i.toString()} button`)
+            weekP.innerHTML += ' ' + checkMark;
+            weekButton.disabled = true;
+            weekButton.className = "finished";
+        }
+    }
+}
+
+function updateProfile () {
+    if (finishedWeeks < 3){
+        var title = "<h5>Beginner Programmer</h5>";
+        var about = `<p>${profile.beginner.about}</p>`;
+        var img = `<img src="./static/images/${profile.beginner.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
+    }
+    else if (finishedWeeks < 5) {
+        var title = "<h5>Mid Programmer</h5>";
+        var about = `<p>${profile.mid.about}</p>`;
+        var img = `<img src="./static/images/${profile.mid.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
+    }
+    else {
+        var title = "<h5>Advanced Programmer</h5>";
+        var about = `<p>${profile.advanced.about}</p>`;
+        var img = `<img src="./static/images/${profile.advanced.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
+    }
+    var profileDiv = document.querySelector('.profile');
+    profileDiv.innerHTML = img + title + about ;
+    // <img src="./static/images/mid_1024x1024.jpeg" class="rounded border-dark" alt="profile-pic" width="1024">
+
+}
+ 
 function typingGame(week) {
     const word = new giveLine(week);
     const formatedWord = formatWord(word.line);
@@ -135,12 +202,13 @@ function typingGame(week) {
 
     // addClass(document.querySelector('.word'), 'current');
     addClass(document.querySelector('.words .letter'), 'current');
-    const game = document.querySelector('.game');
+    gameElem.parentElement.className = "d-flex justify-content-center";
+    gameElem.className = "game";
     // console.log(wordCount);
 
-    if (typingEventBinded) game.removeEventListener('keyup', typingEventBinded);
+    if (typingEventBinded) gameElem.removeEventListener('keyup', typingEventBinded);
     typingEventBinded = typingEvent.bind(word);
-    game.addEventListener('keyup', typingEventBinded);
+    gameElem.addEventListener('keyup', typingEventBinded);
     return 0;
 
 }
@@ -176,11 +244,13 @@ function typingEvent (event) {
                 if (checkSuccess()) {
                     console.log("success");
                     progress(5);
-                    typGameStatus = false;
+                    // typGameStatus = false;
+                    typeGameAnime(true);
                 }
                 else {
                     console.log("fail");
-                    typGameStatus = false;
+                    // typGameStatus = false;
+                    typeGameAnime(false);
                     
                 }
                 finished = true
@@ -198,7 +268,8 @@ function typingEvent (event) {
                 console.log("finished");
                 addClass(currentLetter, 'incorrect');
                 console.log("fail");
-                typGameStatus = false;
+                typeGameAnime(false);
+                // typGameStatus = false;
             }   
             else {
                 addClass(currentLetter, 'incorrect');
@@ -219,4 +290,13 @@ function showGame() {
     gameElem.style.display = "inline-flex";
 }
 
+function typeGameAnime(success) {
+    if (success) {
+        gameElem.className = 'game pulse-correct';
+    }
+    else {
+        gameElem.className = 'game pulse-incorrect';
+    }
+    setTimeout(() => {typGameStatus=false;},2000);
+}
 main()
