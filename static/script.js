@@ -2,16 +2,16 @@
 var weekProgress =  JSON.parse(localStorage.getItem("weekProgress"));
 var weekFinished = JSON.parse(localStorage.getItem("weekFinished"));
 var finishedWeeks = JSON.parse(localStorage.getItem("finishedWeeks"));
-
 // First Time
 if (!weekProgress) {
+    console.log("no local")
     weekProgress = Array(11).fill(0.0);
     weekFinished = Array(11).fill(false);
     finishedWeeks = 0;
-    const myModal = bootstrap.Modal.getOrCreateInstance('#endingModal');
+    const myModal = bootstrap.Modal.getOrCreateInstance('#startModal');
     myModal.show();
 }
-
+// Global Variables
 var gameIntervals = [];
 var activeWeek;
 var typGameStatus = false;
@@ -19,69 +19,74 @@ var cursorIndex = 0;
 var typingEventBinded;
 var gameElem = document.querySelector('.game');
 var progressBar = document.querySelector('.progress-bar');
+var textAnimate = document.querySelector('.text-animate');
 var profile = {
     "beginner": {
         "img": "beginner_1024x1024.jpeg",
-        "about": "This is you. You are just a noob programmer. Everything confuses you."
+        "about": "This is you. You are just a noob programmer. Everything confuses you. You've heard about this course called CS50x. You hope this course makes you a better programmer."
     },
     "mid": {
         "img": "mid_1024x1024.jpeg",
-        "about": "Stuff is getting sense now. You understand main concepts of programming."
+        "about": "Stuff is getting sense now. You understand main concepts of programming. Ideas are poping into your head. You are confident with your skills. "
     },
     "advanced": {
         "img": "advanced_1024x1024.jpeg",
-        "about": "You can see what's under the hood"
+        "about": "You can see what's under the hood. You see the bytes flowing in your CPU. Nothing fears you. You have 200 WPM. You eat bugs for breakfast."
     }
 }
-function main() {
+var linesToAnimate = [
+    "...watching lecture...",
+    "...watching sections...",
+    "...watching shorts...",
+    "...solving problem sets..."
+]
 
+function main() {
+    // Game Loop buttons
     const startBtns = document.querySelectorAll('.cs-week-title button');
     startBtns.forEach( btn => {
         btn.addEventListener("click", gameLoop);
     })
-
+    // Reset button
+    const resetBtn = document.querySelector('.reset');
+    resetBtn.addEventListener('click', resetProgress);
+    // Saving progress
+    window.addEventListener("beforeunload" , () => {
+        localStorage.setItem("weekProgress", JSON.stringify(weekProgress));
+        localStorage.setItem("weekFinished", JSON.stringify(weekFinished));
+        localStorage.setItem("finishedWeeks",JSON.stringify(finishedWeeks));
+    })
+    // updates
     updateCheckMark();
     updateProfile();
-    // window.addEventListener("beforeunload" , () => {
-    //     localStorage.setItem("weekProgress", JSON.stringify(weekProgress));
-    //     localStorage.setItem("weekFinished", JSON.stringify(weekFinished));
-    //     localStorage.setItem("finishedWeeks",JSON.stringify(finishedWeeks));
-    // })
-    // var textWrapper = document.querySelector('.animated');
-    // textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
-
-    // anime.timeline({loop: false})
-    // .add({
-    //     targets: '.animated .letter',
-    //     opacity: [0,1],
-    //     easing: "easeInOutQuad",
-    //     duration: 2250,
-    //     delay: (el, i) => 150 * (i+1)
-    // });
 }
 
 function gameLoop() {
     if (activeWeek) removeClass(activeWeek, 'active');
     addClass(this, 'active');
-    // showGame();
-    updateProfile();
     activeWeek = this;
-    for ( var i = 0; i < gameIntervals.length; i++) {
-        clearInterval(gameIntervals[i]);
-    }
+    typGameStatus = false;
     let week = this.dataset.week;
+    // Updates
+    updateProfile();
+    intervalReset();
     updatebar(week);
+    // Static progress loop
     gameIntervals.push( setInterval( () => {
         progress(0.5);
         console.log(`${week}`,weekProgress[week]);
         checkFinished();
-        }
-    , 1000));
+        },1000));
+    // Typing game loop
     gameIntervals.push( setInterval( () => {
         if (!typGameStatus) {
             typingGame(week);
         }
-    }), 1000)
+    },1000));
+    // Text animation loop
+    gameIntervals.push( setInterval( () => {
+        textAnimate.textContent = linesToAnimate[Math.ceil(Math.random() * 4)-1];
+    },5000));
 }   
 
 class giveLine {
@@ -94,7 +99,7 @@ class giveLine {
         ['struct node *next;','next->number = number;','free(ptr);','node *n = malloc(sizeof(node));','n->left = NULL;'],
         ['from cs50 import get_string','print(f"hello, {answer}")','x = int(input("x: "))','for i in range(n)','except ValueError:'],
         ['SELECT * FROM shows','SELECT name FROM shows WHERE id = 1','JOIN genres ON shows.id = genres.show_id', 'INSERT INTO favorites','CREATE TABLE imdb'],
-        ['<html lang="en"','text-align: center;', '<link href="style.css">', 'alert("hello")', 'document.querySelector("body")'],
+        ['<html lang="en">','text-align: center;', '<link href="style.css">', 'alert("hello")', 'document.querySelector("body")'],
         ['app = Flask(__name__)','return render_template("index.html")','hello, {{name}}', 'if request.method == "POST"', 'request.form.get("name)'],
         ['Two-factor Authentication', 'Hashing algorithms', 'Passkeys', 'Cryptography','Encryption']];
 
@@ -103,6 +108,100 @@ class giveLine {
         this.line = giveLine.Lines[week][randomIndex - 1];
     }
 }
+
+function typingGame(week) {
+    const word = new giveLine(week);
+    const formatedWord = formatWord(word.line);
+    wordLength = word.line.length;
+    console.log("word length", wordLength);
+    cursorIndex = 0;
+    typGameStatus = true;
+
+    const wordsElement = document.querySelector('.words');
+    wordsElement.innerHTML = formatedWord;
+
+    // addClass(document.querySelector('.word'), 'current');
+    addClass(document.querySelector('.words .letter'), 'current');
+    gameElem.parentElement.className = "d-flex justify-content-center";
+    gameElem.className = "game";
+    // console.log(wordCount);
+
+    if (typingEventBinded) gameElem.removeEventListener('keyup', typingEventBinded);
+    typingEventBinded = typingEvent.bind(word);
+    gameElem.addEventListener('keyup', typingEventBinded);
+    return 0;}
+    function typingEvent (event) {
+        const typedKey = event.key;
+        const currentElem = document.querySelector('.letter.current');
+        let currentLetter = currentElem.innerHTML;
+        if (currentLetter.length > 1) {
+            if(currentLetter === "&amp;") currentLetter = "&";
+            if(currentLetter === "&lt;") currentLetter = "<";
+            if(currentLetter === "&gt;") currentLetter = ">";
+        }
+        const isBackspace = typedKey === 'Backspace';
+        const isLetter = typedKey.length === 1;
+    
+        if (isBackspace) {
+            if (cursorIndex === 0) {
+                console.log("cant go back")
+            }
+            else {
+                removeClass(currentElem, 'current');
+                addClass(currentElem.previousSibling, 'current');
+                if (currentElem.previousSibling.className.includes("incorrect")) {
+                    removeClass(currentElem.previousSibling, 'incorrect')
+                }
+                else {
+                    removeClass(currentElem.previousSibling, 'correct')
+                }
+                cursorIndex -= 1;
+            }
+        }
+        else if (isLetter) {
+            if(typedKey === currentLetter) {
+                if (cursorIndex === (wordLength - 1)) {
+                    console.log("finished");
+                    addClass(currentElem, 'correct');
+                    if (checkSuccess()) {
+                        console.log("success");
+                        progress(5);
+                        // typGameStatus = false;
+                        typeGameAnime(true);
+                    }
+                    else {
+                        console.log("fail");
+                        // typGameStatus = false;
+                        typeGameAnime(false);
+                        
+                    }
+                    finished = true
+                }   
+                else {
+                    addClass(currentElem, 'correct');
+                    removeClass(currentElem, 'current'); 
+                    addClass(currentElem.nextSibling, 'current');
+                    cursorIndex += 1;
+                    console.log(cursorIndex)
+                }
+            }
+            else {
+                console.log("your key", typedKey);
+                console.log("corret one", currentLetter);
+                if (cursorIndex === (wordLength - 1)) {
+                    console.log("finished");
+                    addClass(currentElem, 'incorrect');
+                    console.log("fail");
+                    typeGameAnime(false);
+                    // typGameStatus = false;
+                }   
+                else {
+                    addClass(currentElem, 'incorrect');
+                    removeClass(currentElem, 'current'); 
+                    addClass(currentElem.nextSibling, 'current');
+                    cursorIndex += 1;
+                    console.log(cursorIndex);
+                }}}}
 
 function addClass(elem, x) {
     elem.className += ' '+x;
@@ -125,10 +224,10 @@ function formatWord(word) {
     return `<span class="letter">${word.split('').join('</span><span class="letter">')}</span>`;
 }
 
+
 function checkSuccess() {
     const game = document.querySelector('.words')
     childElem = game.children;
-
 
     for (let i = 0; i < childElem.length; i++) {
         if(childElem[i].className.includes('incorrect')){
@@ -140,6 +239,7 @@ function checkSuccess() {
 
 function checkFinished() {
     if (weekFinished[activeWeek.dataset.week]) {
+        gameElem.parentElement.className = "d-none";
         gameElem.className = "d-none";
         activeWeek.className = 'finished';
         activeWeek.disabled = true;
@@ -149,6 +249,9 @@ function checkFinished() {
         let checkMark = '<img class="check-mark" src="./static/images/check.svg"/>';
         let weekElem = document.querySelector(`#week${activeWeek.dataset.week} p`);
         weekElem.innerHTML += ' ' + checkMark;
+        textAnimate.innerHTML = "<br>";
+        typGameStatus = false;
+        updateProfile();
     }
 }
 
@@ -173,112 +276,23 @@ function updateProfile () {
         var about = `<p>${profile.beginner.about}</p>`;
         var img = `<img src="./static/images/${profile.beginner.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
     }
-    else if (finishedWeeks < 5) {
+    else if (finishedWeeks < 9) {
         var title = "<h5>Mid Programmer</h5>";
         var about = `<p>${profile.mid.about}</p>`;
         var img = `<img src="./static/images/${profile.mid.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
     }
     else {
+        if (finishedWeeks === 11) {
+            const finalModal = bootstrap.Modal.getOrCreateInstance('#endingModal');
+            finalModal.show();
+        }
         var title = "<h5>Advanced Programmer</h5>";
         var about = `<p>${profile.advanced.about}</p>`;
         var img = `<img src="./static/images/${profile.advanced.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
     }
     var profileDiv = document.querySelector('.profile');
-    profileDiv.innerHTML = img + title + about ;
-    // <img src="./static/images/mid_1024x1024.jpeg" class="rounded border-dark" alt="profile-pic" width="1024">
-
+    profileDiv.innerHTML = img + title + about ;    
 }
- 
-function typingGame(week) {
-    const word = new giveLine(week);
-    const formatedWord = formatWord(word.line);
-    wordLength = word.line.length;
-    console.log("word length", wordLength);
-    cursorIndex = 0;
-    typGameStatus = true;
-
-    const wordsElement = document.querySelector('.words');
-    wordsElement.innerHTML = formatedWord;
-
-    // addClass(document.querySelector('.word'), 'current');
-    addClass(document.querySelector('.words .letter'), 'current');
-    gameElem.parentElement.className = "d-flex justify-content-center";
-    gameElem.className = "game";
-    // console.log(wordCount);
-
-    if (typingEventBinded) gameElem.removeEventListener('keyup', typingEventBinded);
-    typingEventBinded = typingEvent.bind(word);
-    gameElem.addEventListener('keyup', typingEventBinded);
-    return 0;
-
-}
-
-function typingEvent (event) {
-    const typedKey = event.key;
-    console.log(typedKey);
-    const currentLetter = document.querySelector('.letter.current');
-    const isBackspace = typedKey === 'Backspace';
-    const isLetter = typedKey.length === 1;
-
-    if (isBackspace) {
-        if (cursorIndex === 0) {
-            console.log("cant go back")
-        }
-        else {
-            removeClass(currentLetter, 'current');
-            addClass(currentLetter.previousSibling, 'current');
-            if (currentLetter.previousSibling.className.includes("incorrect")) {
-                removeClass(currentLetter.previousSibling, 'incorrect')
-            }
-            else {
-                removeClass(currentLetter.previousSibling, 'correct')
-            }
-            cursorIndex -= 1;
-        }
-    }
-    else if (isLetter) {
-        if(typedKey === currentLetter.innerHTML) {
-            if (cursorIndex === (wordLength - 1)) {
-                console.log("finished");
-                addClass(currentLetter, 'correct');
-                if (checkSuccess()) {
-                    console.log("success");
-                    progress(5);
-                    // typGameStatus = false;
-                    typeGameAnime(true);
-                }
-                else {
-                    console.log("fail");
-                    // typGameStatus = false;
-                    typeGameAnime(false);
-                    
-                }
-                finished = true
-            }   
-            else {
-                addClass(currentLetter, 'correct');
-                removeClass(currentLetter, 'current'); 
-                addClass(currentLetter.nextSibling, 'current');
-                cursorIndex += 1;
-                console.log(cursorIndex)
-            }
-        }
-        else {
-            if (cursorIndex === (wordLength - 1)) {
-                console.log("finished");
-                addClass(currentLetter, 'incorrect');
-                console.log("fail");
-                typeGameAnime(false);
-                // typGameStatus = false;
-            }   
-            else {
-                addClass(currentLetter, 'incorrect');
-                removeClass(currentLetter, 'current'); 
-                addClass(currentLetter.nextSibling, 'current');
-                cursorIndex += 1;
-                console.log(cursorIndex);
-            }
-        }}}
 
 function updatebar(week) {
     let progress = weekProgress[week].toString() + '%';
@@ -286,8 +300,10 @@ function updatebar(week) {
     progressBar.innerHTML = progress;
 }
 
-function showGame() {
-    gameElem.style.display = "inline-flex";
+function intervalReset() {
+    for ( var i = 0; i < gameIntervals.length; i++) {
+        clearInterval(gameIntervals[i]);
+    }
 }
 
 function typeGameAnime(success) {
@@ -299,4 +315,30 @@ function typeGameAnime(success) {
     }
     setTimeout(() => {typGameStatus=false;},2000);
 }
+
+function resetProgress() {
+    weekProgress = Array(11).fill(0.0);
+    weekFinished = Array(11).fill(false);
+    finishedWeeks = 0;
+
+    const weekP = document.querySelectorAll('.cs-week-title p');
+    for (let i = 0; i < weekP.length ; i++){
+        if(weekP[i].children[0]){
+            weekP[i].children[0].remove();  
+        }
+    }
+
+    const btns = document.querySelectorAll('.cs-week-title button').forEach( (btn) => {
+        btn.disabled = false;
+        btn.className = "unfinished";
+    });
+
+    gameElem.className = "d-none";
+    textAnimate.innerHTML = "<br>";
+    progressBar.style.width = "0%";
+    progressBar.innerHTML = "0%";
+    updateProfile();
+    intervalReset();
+}
+
 main()

@@ -22,9 +22,9 @@ body {
     color: var(--FONT-COLOR-GRAY1);
 }
 
-/* button {
+button {
     border-radius: 5px;
-} */
+}
 
 img {
     width: 100%;
@@ -35,6 +35,10 @@ img {
 .profile p {
     word-break: break-all;
 } */
+
+button:hover {
+    outline: thin solid var(--FONT-COLOR-GRAY1);
+}
 
 header {
     text-align: center;
@@ -53,7 +57,7 @@ header {
 }
 
 .profile img {
-    width: 85%;
+    width: 72%;
     text-align: center;
     margin-right: auto;
     margin-left: auto;
@@ -64,9 +68,14 @@ header {
     margin-top: 0.5em;
 }
 
-.cs-week {
+.cs-week, .cs-week-head {
     margin-bottom: 0.25em;
     border-bottom: solid thin var(--FONT-COLOR-GRAY2);
+}
+
+.cs-week-head{
+    display: flex;
+    justify-content: space-between;
 }
 
 .cs-week:last-child {
@@ -138,6 +147,12 @@ header {
     fill:white;
 }
 
+.reset {
+    background-color: inherit;
+    border: none;
+    color: var(--FONT-COLOR-GRAY1);
+}
+
 .pulse-correct {
     animation: pulse-correct 2s;
     animation-iteration-count: 1;
@@ -147,6 +162,7 @@ header {
     animation: pulse-incorrect 2s;
     animation-iteration-count: 1;
 }
+
 @keyframes glowing {
     0% {
         background: var(--BGCOLOR-BLUE);
@@ -178,3 +194,23 @@ header {
         box-shadow: var(--FONT-COLOR-RED) 0px 25px 25px, var(--FONT-COLOR-RED) 0px -12px 30px, var(--FONT-COLOR-RED) 0px 4px 6px, var(--FONT-COLOR-RED)0px 12px 13px, var(--FONT-COLOR-RED) 0px -3px 5px;
     }
 }
+
+
+.text-animate{
+    position: relative;
+    top: 50%;  
+    width: 24em;
+    margin: 0 auto;
+    text-align: center; 
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--FONT-COLOR-PURPLE);
+}
+.anim-typewriter{
+    animation: typewriter 4s steps(44)  infinite normal both;
+  }
+  @keyframes typewriter{
+    from{width: 0;}
+    to{width: 100%;}
+  }
+
