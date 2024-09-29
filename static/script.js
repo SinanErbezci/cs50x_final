@@ -4,7 +4,6 @@ var weekFinished = JSON.parse(localStorage.getItem("weekFinished"));
 var finishedWeeks = JSON.parse(localStorage.getItem("finishedWeeks"));
 // First Time
 if (!weekProgress) {
-    console.log("no local")
     weekProgress = Array(11).fill(0.0);
     weekFinished = Array(11).fill(false);
     finishedWeeks = 0;
@@ -74,7 +73,6 @@ function gameLoop() {
     // Static progress loop
     gameIntervals.push( setInterval( () => {
         progress(0.5);
-        console.log(`${week}`,weekProgress[week]);
         checkFinished();
         },1000));
     // Typing game loop
@@ -113,18 +111,15 @@ function typingGame(week) {
     const word = new giveLine(week);
     const formatedWord = formatWord(word.line);
     wordLength = word.line.length;
-    console.log("word length", wordLength);
     cursorIndex = 0;
     typGameStatus = true;
 
     const wordsElement = document.querySelector('.words');
     wordsElement.innerHTML = formatedWord;
 
-    // addClass(document.querySelector('.word'), 'current');
     addClass(document.querySelector('.words .letter'), 'current');
     gameElem.parentElement.className = "d-flex justify-content-center";
     gameElem.className = "game";
-    // console.log(wordCount);
 
     if (typingEventBinded) gameElem.removeEventListener('keyup', typingEventBinded);
     typingEventBinded = typingEvent.bind(word);
@@ -144,7 +139,6 @@ function typingGame(week) {
     
         if (isBackspace) {
             if (cursorIndex === 0) {
-                console.log("cant go back")
             }
             else {
                 removeClass(currentElem, 'current');
@@ -161,17 +155,12 @@ function typingGame(week) {
         else if (isLetter) {
             if(typedKey === currentLetter) {
                 if (cursorIndex === (wordLength - 1)) {
-                    console.log("finished");
                     addClass(currentElem, 'correct');
                     if (checkSuccess()) {
-                        console.log("success");
                         progress(5);
-                        // typGameStatus = false;
                         typeGameAnime(true);
                     }
                     else {
-                        console.log("fail");
-                        // typGameStatus = false;
                         typeGameAnime(false);
                         
                     }
@@ -182,25 +171,18 @@ function typingGame(week) {
                     removeClass(currentElem, 'current'); 
                     addClass(currentElem.nextSibling, 'current');
                     cursorIndex += 1;
-                    console.log(cursorIndex)
                 }
             }
             else {
-                console.log("your key", typedKey);
-                console.log("corret one", currentLetter);
                 if (cursorIndex === (wordLength - 1)) {
-                    console.log("finished");
                     addClass(currentElem, 'incorrect');
-                    console.log("fail");
                     typeGameAnime(false);
-                    // typGameStatus = false;
                 }   
                 else {
                     addClass(currentElem, 'incorrect');
                     removeClass(currentElem, 'current'); 
                     addClass(currentElem.nextSibling, 'current');
                     cursorIndex += 1;
-                    console.log(cursorIndex);
                 }}}}
 
 function addClass(elem, x) {
@@ -259,7 +241,6 @@ function updateCheckMark() {
     let checkMark = '<img class="check-mark" src="./static/images/check.svg"/>';
     for ( let i = 0; i < weekFinished.length ; i++) {
         let weekBool = weekFinished[i]
-        console.log(i, weekBool);
         if (weekBool) {
             let weekP = document.querySelector(`#week${i.toString()} p`);
             let weekButton = document.querySelector(`#week${i.toString()} button`)

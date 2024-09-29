@@ -15,9 +15,11 @@
         </header>
         <div class="container">
             <div class="row">
+                <!-- Profile Section -->
                 <div class="col-4 profile">
                 </div>
                 <div class="col-8">
+                    <!-- Course -->
                     <div class="cs-week-head">
                     <h5>Course Syllabus</h5>
                     <button class="reset">Reset Progress</button>
@@ -88,16 +90,15 @@
                         <button data-week="10" type="button" class="unfinished">Start Learning</button>
                         </div>
                     </div>
-
                 </div>
             </div>
-
+            <!-- Text Animation -->
             <div class="row">
-            <div class="deneme">
-                <p class="text-animate anim-typewriter"><br></p>
+                <div class="deneme">
+                    <p class="text-animate anim-typewriter"><br></p>
+                </div>
             </div>
-            </div>
-
+            <!-- ProgressBar -->
             <div class="row">
                 <div class="d-flex justify-content-center bar">
                     <div class="progress">
@@ -105,54 +106,49 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Typing Game -->
             <div class="row">
-            <div class="d-none">
-                <div class="game" tabindex="0">
-                    <div class="cursor"></div>
-                    <div class="words"></div>
+                <div class="d-none">
+                    <div class="game" tabindex="0">
+                        <div class="words"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="startModal" tabindex="-1" aria-labelledby="startModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="startModalLabel">Welcome to CS50x Idle Game</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Start Learning coding week by week with CS50x.</p>
+                    <p>Complete the typing challenge (below progressbar) to get extra points.</p>
+                    <p>Enjoy!</p>   
                 </div>
             </div>
             </div>
         </div>
-
-  
-  <!-- Modal -->
-  <div class="modal fade" id="startModal" tabindex="-1" aria-labelledby="startModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="startModalLabel">Welcome to CS50x Idle Game</h1>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal fade" id="endingModal" tabindex="-1" aria-labelledby="endingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="endingModalLabel">The End</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Thank you for playing!</p>
+                </div>
+            </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <p>Start Learning coding week by week with CS50x.</p>
-            <p>Complete the typing challenge to get extra points.</p>
-            <p>Enjoy!</p>
+        <!-- Footer -->
+        <div class="container-fluid position-absolute bottom-0">
+            <footer class="d-flex flex-wrap justify-content-center align-items-center py-3 border-top">
+                <h5 class="text-center">CS50X Final Project - Sinan Erbezci</h5>
+            </footer>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="endingModal" tabindex="-1" aria-labelledby="endingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="endingModalLabel">The End</h1>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p>Thank you for playing!</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-<div class="container-fluid position-absolute bottom-0">
-    <footer class="d-flex flex-wrap justify-content-center align-items-center py-3 border-top">
-        <h5 class="text-center">CS50X Final Project - Sinan Erbezci</h5>
-    </footer>
-</div>
-</div>
-</div>
-</body>
+    </body>
 </html>
