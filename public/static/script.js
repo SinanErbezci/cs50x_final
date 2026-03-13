@@ -228,7 +228,7 @@ function checkFinished() {
         for ( var i = 0; i < gameIntervals.length; i++) {
             clearInterval(gameIntervals[i]);
         }
-        let checkMark = '<img class="check-mark" src="./static/images/check.svg"/>';
+        let checkMark = '<img class="check-mark" src="/static/images/check.svg"/>';
         let weekElem = document.querySelector(`#week${activeWeek.dataset.week} p`);
         weekElem.innerHTML += ' ' + checkMark;
         textAnimate.innerHTML = "<br>";
@@ -238,7 +238,7 @@ function checkFinished() {
 }
 
 function updateCheckMark() {
-    let checkMark = '<img class="check-mark" src="./static/images/check.svg"/>';
+    let checkMark = '<img class="check-mark" src="/static/images/check.svg"/>';
     for ( let i = 0; i < weekFinished.length ; i++) {
         let weekBool = weekFinished[i]
         if (weekBool) {
@@ -255,12 +255,12 @@ function updateProfile () {
     if (finishedWeeks < 3){
         var title = "<h5>Beginner Programmer</h5>";
         var about = `<p>${profile.beginner.about}</p>`;
-        var img = `<img src="./static/images/${profile.beginner.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
+        var img = `<img src="/static/images/${profile.beginner.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
     }
     else if (finishedWeeks < 9) {
         var title = "<h5>Mid Programmer</h5>";
         var about = `<p>${profile.mid.about}</p>`;
-        var img = `<img src="./static/images/${profile.mid.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
+        var img = `<img src="/static/images/${profile.mid.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
     }
     else {
         if (finishedWeeks === 11) {
@@ -269,7 +269,7 @@ function updateProfile () {
         }
         var title = "<h5>Advanced Programmer</h5>";
         var about = `<p>${profile.advanced.about}</p>`;
-        var img = `<img src="./static/images/${profile.advanced.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
+        var img = `<img src="/static/images/${profile.advanced.img}" class="rounded border-dark" alt="profile-pic" width="1024">`;
     }
     var profileDiv = document.querySelector('.profile');
     profileDiv.innerHTML = img + title + about ;    
